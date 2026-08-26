@@ -1,0 +1,65 @@
+{
+  "name": "parlay-api",
+  "version": "0.4.0",
+  "description": "Official ParlayAPI JavaScript/TypeScript SDK. Sports odds across 30+ sportsbooks, player props, arbitrage, +EV, prediction markets, and closing-line history back to 2005. Zero dependencies, drop-in compatible with the-odds-api.",
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "npm run build:esm && npm run build:cjs && npm run build:types",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({ type: 'commonjs' }))\"",
+    "build:types": "tsc -p tsconfig.types.json",
+    "test": "node test/smoke.mjs",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "sports",
+    "odds",
+    "betting",
+    "api",
+    "sdk",
+    "parlay-api",
+    "the-odds-api",
+    "sportsbook",
+    "player-props",
+    "arbitrage",
+    "positive-ev",
+    "polymarket",
+    "kalshi",
+    "prediction-markets",
+    "closing-lines",
+    "typescript"
+  ],
+  "author": "ParlayAPI",
+  "license": "MIT",
+  "homepage": "https://parlay-api.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JacobiusMakes/parlay-api-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JacobiusMakes/parlay-api-js/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}
