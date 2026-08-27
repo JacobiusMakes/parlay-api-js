@@ -59,6 +59,10 @@
   "engines": {
     "node": ">=18"
   },
+  "stackblitz": {
+    "installDependencies": true,
+    "startCommand": "npm run build && node examples/quickstart.mjs"
+  },
   "devDependencies": {
     "typescript": "^5.5.0"
   }

@@ -2,6 +2,10 @@
 
 Official JavaScript/TypeScript SDK for [ParlayAPI](https://parlay-api.com): real-time sports odds across 30+ sportsbooks and sources, 90+ sports and leagues, player props, arbitrage and +EV detection, prediction markets (Kalshi, Polymarket), and closing-line history back to 2005.
 
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/JacobiusMakes/parlay-api-js?file=examples%2Fquickstart.mjs)
+
+Try it without installing anything: the button above boots the repo in your browser and runs the quickstart against the keyless sandbox. No account, no API key.
+
 - Zero runtime dependencies. Native `fetch`. Works in Node.js 18+ and modern browsers.
 - TypeScript types included. Ships ESM and CommonJS builds.
 - Drop-in compatible with the-odds-api (`toaCompat` mode uses the same `/v4` paths and response shapes).
