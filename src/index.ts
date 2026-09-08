@@ -437,6 +437,39 @@ export function kellyStake(
 }
 
 /* ------------------------------------------------------------------ */
+/* Sport key aliases                                                  */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Short aliases for full sport keys (e.g. `nba` for `basketball_nba`).
+ * People coming from the sandbox quickstart usually type the short form
+ * first, so the client resolves these before the request goes out.
+ */
+export const SPORT_ALIASES: Record<string, string> = {
+  nba: "basketball_nba",
+  wnba: "basketball_wnba",
+  ncaab: "basketball_ncaab",
+  nfl: "americanfootball_nfl",
+  ncaaf: "americanfootball_ncaaf",
+  cfb: "americanfootball_ncaaf",
+  mlb: "baseball_mlb",
+  nhl: "icehockey_nhl",
+  epl: "soccer_england_premier_league",
+  mma: "mma_mixed_martial_arts",
+  ufc: "mma_mixed_martial_arts",
+};
+
+/**
+ * Resolve a short sport alias to its full sport key. The input is
+ * lowercased first; unknown strings pass through untouched so new sport
+ * keys added server-side never break.
+ */
+export function resolveSportKey(key: string): string {
+  const target = SPORT_ALIASES[key.toLowerCase()];
+  return target ?? key;
+}
+
+/* ------------------------------------------------------------------ */
 /* Client                                                             */
 /* ------------------------------------------------------------------ */
 
@@ -559,6 +592,7 @@ export class ParlayAPI {
     suffix: string,
     opts: { sandbox?: boolean; v4?: boolean } = {}
   ): string {
+    sportKey = resolveSportKey(sportKey);
     const tail = suffix ? `/${suffix}` : "";
     if (this.sandbox && opts.sandbox) {
       return `/v1/sandbox/sports/${sportKey}${tail}`;
@@ -644,6 +678,7 @@ export class ParlayAPI {
     date: string,
     options: HistoricalOddsOptions = {}
   ): Promise<JsonRecord[] | JsonRecord> {
+    sportKey = resolveSportKey(sportKey);
     const params: Params = {
       date,
       regions: options.regions ?? "us",
@@ -664,6 +699,7 @@ export class ParlayAPI {
     sportKey: string,
     options: ClosingOddsOptions = {}
   ): Promise<JsonRecord[] | JsonRecord> {
+    sportKey = resolveSportKey(sportKey);
     return this.request(`/v1/historical/sports/${sportKey}/closing-odds`, {
       markets: options.markets,
       bookmakers: options.bookmakers,
@@ -707,7 +743,7 @@ export class ParlayAPI {
 
   /** Available prop market keys for a sport, with per-book coverage. */
   propMarkets(sportKey: string): Promise<JsonRecord[]> {
-    return this.request(`/v1/sports/${sportKey}/props/markets`);
+    return this.request(`/v1/sports/${resolveSportKey(sportKey)}/props/markets`);
   }
 
   /** Futures and outright markets grouped by competition. */
@@ -723,7 +759,7 @@ export class ParlayAPI {
     sportKey: string,
     options: PredictionMarketsOptions = {}
   ): Promise<JsonRecord | JsonRecord[]> {
-    return this.request(`/v1/prediction-markets/${sportKey}`, {
+    return this.request(`/v1/prediction-markets/${resolveSportKey(sportKey)}`, {
       sources: options.sources,
     });
   }
@@ -802,7 +838,7 @@ export class ParlayAPI {
     sportKey: string,
     options: MiddlesOptions = {}
   ): Promise<JsonRecord> {
-    return this.request(`/v1/sports/${sportKey}/middles`, {
+    return this.request(`/v1/sports/${resolveSportKey(sportKey)}/middles`, {
       min_gap: options.minGap ?? 1.0,
       include_props: options.includeProps ?? true,
       markets: options.markets,
@@ -869,7 +905,7 @@ export class ParlayAPI {
     sportKey: string,
     options: BestBetsOptions = {}
   ): Promise<JsonRecord> {
-    return this.request(`/v1/sports/${sportKey}/best-bets`, {
+    return this.request(`/v1/sports/${resolveSportKey(sportKey)}/best-bets`, {
       region: options.region,
       books: options.books,
       limit: options.limit ?? 20,
@@ -914,6 +950,7 @@ export class ParlayAPI {
    * WebSocket and SSE streaming require Business tier or above.
    */
   websocketUrl(sportKey: string): string {
+    sportKey = resolveSportKey(sportKey);
     const scheme = this.baseUrl.startsWith("https") ? "wss" : "ws";
     const host = this.baseUrl.split("://", 2)[1];
     const key = this.apiKey ? `?apiKey=${encodeURIComponent(this.apiKey)}` : "";
