@@ -3,6 +3,8 @@
 import assert from "node:assert/strict";
 import {
   ParlayAPI,
+  SPORT_ALIASES,
+  resolveSportKey,
   devig,
   edge,
   kellyStake,
@@ -28,6 +30,13 @@ check("kellyStake -EV clamps to 0", kellyStake(0.4, -110) === 0);
 check("american<->decimal round trip", decimalToAmerican(americanToDecimal(-135)) === -135);
 check("impliedToAmerican(0.5) is -100", impliedToAmerican(0.5) === -100);
 
+// ---- sport key aliases (offline) ----
+check("alias table maps nba", SPORT_ALIASES.nba === "basketball_nba");
+check("alias table maps mlb", SPORT_ALIASES.mlb === "baseball_mlb");
+check("resolveSportKey lowercases aliases", resolveSportKey("NBA") === "basketball_nba");
+check("resolveSportKey passes full keys through", resolveSportKey("basketball_nba") === "basketball_nba");
+check("resolveSportKey passes unknown keys through", resolveSportKey("some_future_key") === "some_future_key");
+
 // ---- constructor forms ----
 const byString = new ParlayAPI("test_key");
 check("string constructor sets apiKey", byString.apiKey === "test_key");
@@ -39,6 +48,10 @@ check(
   "websocketUrl shape",
   sandbox.websocketUrl("basketball_nba").startsWith("wss://parlay-api.com/ws/odds/basketball_nba")
 );
+check(
+  "websocketUrl resolves aliases",
+  sandbox.websocketUrl("nba").startsWith("wss://parlay-api.com/ws/odds/basketball_nba")
+);
 
 // ---- live sandbox endpoints (keyless) ----
 const sports = await sandbox.sports();
@@ -49,6 +62,16 @@ const odds = await sandbox.odds("basketball_nba", {
   markets: ["h2h", "spreads", "totals"],
 });
 check("sandbox odds returns events", Array.isArray(odds) && odds.length > 0);
+
+const aliasOdds = await sandbox.odds("nba", {
+  markets: ["h2h", "spreads", "totals"],
+});
+check(
+  "sandbox odds alias returns the same events",
+  Array.isArray(aliasOdds) &&
+    aliasOdds.length === odds.length &&
+    aliasOdds.every((e, i) => e.id === odds[i].id)
+);
 const event = odds[0];
 check("event has bookmakers", Array.isArray(event.bookmakers) && event.bookmakers.length > 0);
 check(

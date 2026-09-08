@@ -33,6 +33,8 @@ const odds = await client.odds("basketball_nba", {
 console.log(odds[0].bookmakers[0].markets[0].outcomes);
 ```
 
+Short sport aliases work everywhere a sport key is accepted: `client.odds("nba")` is the same as `client.odds("basketball_nba")`. Other aliases include `mlb`, `nfl`, `nhl`, `epl`, and `ufc` — see the exported `SPORT_ALIASES` table (and `resolveSportKey()` helper) for the full mapping.
+
 Sandbox mode serves realistic synthetic data from the live API's `/v1/sandbox` endpoints: perfect for development and CI. When you are ready for live odds, [grab a free key](https://parlay-api.com/signup) (free tier: 1,000 credits/month, no card) and drop the flag:
 
 ```js
