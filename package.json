@@ -1,7 +1,7 @@
 {
   "name": "parlay-api",
   "version": "0.4.0",
-  "description": "Official ParlayAPI JavaScript/TypeScript SDK. Sports odds across 30+ sportsbooks, player props, arbitrage, +EV, prediction markets, and closing-line history back to 2005. Zero dependencies, drop-in compatible with the-odds-api.",
+  "description": "JavaScript/TypeScript client for private ParlayAPI sports odds research using your own API key. Native fetch and local odds calculations.",
   "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
