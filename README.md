@@ -72,6 +72,12 @@ Sandbox mode only changes methods with a sandbox route; other methods can still 
 
 The client exposes typed errors and parses quota headers into `lastQuota`. Streaming access depends on the endpoint and account plan. `streamOdds` uses the runtime's global `WebSocket`; provide `options.webSocket` if your runtime lacks it.
 
+Practice choosing a next check with the
+[offline first-response rehearsal](https://github.com/JacobiusMakes/parlayapi-notebooks/tree/main/labs/response-triage).
+Its twelve invented cases distinguish authentication, access, rate-limit and
+transport outcomes, with explicit attempt and wait budgets. The Python command
+runs without keys or API requests.
+
 ## Development
 
 ```sh
