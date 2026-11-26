@@ -1,6 +1,6 @@
 {
   "name": "parlay-api",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "JavaScript/TypeScript client for private ParlayAPI sports odds research using your own API key. Native fetch and local odds calculations.",
   "type": "module",
   "main": "./dist/cjs/index.js",
@@ -8,9 +8,14 @@
   "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/types/index.d.cts",
+        "default": "./dist/cjs/index.js"
+      }
     }
   },
   "files": [
@@ -24,7 +29,8 @@
     "build": "npm run build:esm && npm run build:cjs && npm run build:types",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build:cjs": "tsc -p tsconfig.cjs.json && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({ type: 'commonjs' }))\"",
-    "build:types": "tsc -p tsconfig.types.json",
+    "build:types": "tsc -p tsconfig.types.json && node -e \"require('node:fs').copyFileSync('dist/types/index.d.ts', 'dist/types/index.d.cts')\"",
+    "test:package": "node test/package.mjs",
     "test": "node test/smoke.mjs",
     "prepublishOnly": "npm run build"
   },
