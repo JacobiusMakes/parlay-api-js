@@ -16,6 +16,17 @@ node examples/quickstart.mjs
 
 The quickstart requests synthetic sandbox data without an API key. It does not show current sportsbook quotes. From another local project, install the built checkout with `npm install /absolute/path/to/parlay-api-js`.
 
+## Plan a request schedule before polling
+
+Use the free [API workload planner](https://parlay-api.com/tools/api-workload?utm_source=github&utm_medium=sdk_readme&utm_campaign=parlay-api-js)
+to write down your active window, refresh interval, separately polled sports,
+requests per refresh and active days. Include every required endpoint and page.
+The planner needs no account or key and does not make API requests.
+
+Leave credit cost unknown until you verify the unit cost for your exact request
+shape in the current documentation. The estimate uses your assumptions; it does
+not establish live coverage, entitlement or the freshness of returned records.
+
 ## First request
 
 ```js
