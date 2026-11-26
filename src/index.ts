@@ -33,7 +33,7 @@ declare const process:
   | { env?: Record<string, string | undefined> }
   | undefined;
 
-export const VERSION = "0.4.0";
+export const VERSION = "0.4.1";
 
 const DEFAULT_BASE_URL = "https://parlay-api.com";
 const DEFAULT_TIMEOUT_MS = 30_000;

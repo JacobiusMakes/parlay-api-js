@@ -2,9 +2,20 @@
 
 An open-source client for private sports odds research with [ParlayAPI](https://parlay-api.com). It uses native `fetch`, includes TypeScript types, and builds ESM and CommonJS modules. Live requests use your own API key and your account's credits. Available sports, bookmakers, markets and historical records vary by request.
 
-## Install from source
+## Install in a Node.js project
 
-The `parlay-api` package was not available from the public npm registry when checked on September 9, 2026. Build this repository locally with Node.js 18 or later:
+Install the prebuilt SDK from its versioned GitHub release in a project using Node.js 18 or later.
+
+```sh
+npm install https://github.com/JacobiusMakes/parlay-api-js/releases/download/v0.4.1/parlay-api-0.4.1.tgz
+node --input-type=module -e 'import { devig } from "parlay-api"; console.log(devig(-110, -110))'
+```
+
+The second command runs locally and prints `[ 0.5, 0.5 ]`. The package includes CommonJS (`require("parlay-api")`), ES modules and TypeScript declarations. To try a synthetic odds board, run the [first request](#first-request).
+
+## Build from source
+
+To work on the client itself, clone the source and compile it locally.
 
 ```sh
 git clone https://github.com/JacobiusMakes/parlay-api-js.git
@@ -14,7 +25,7 @@ npm run build
 node examples/quickstart.mjs
 ```
 
-The quickstart requests synthetic sandbox data without an API key. It does not show current sportsbook quotes. From another local project, install the built checkout with `npm install /absolute/path/to/parlay-api-js`.
+The quickstart requests synthetic sandbox data without an API key. From another local project, install the built checkout with `npm install /absolute/path/to/parlay-api-js`.
 
 ## Plan a request schedule before polling
 
@@ -34,10 +45,12 @@ Unpriced work keeps the total credit estimate unknown.
 
 ## First request
 
+Save this example as `first-request.mjs` in the project where you installed the SDK and run `node first-request.mjs`. It requests synthetic sandbox quotes without using an API key.
+
 ```js
 import { ParlayAPI } from "parlay-api";
 
-const client = new ParlayAPI({ sandbox: true });
+const client = new ParlayAPI({ sandbox: true, apiKey: "" });
 const odds = await client.odds("basketball_nba", {
   regions: "us",
   markets: ["h2h"],
@@ -82,6 +95,7 @@ runs without keys or API requests.
 
 ```sh
 npm run build
+npm run test:package
 npm test
 ```
 
