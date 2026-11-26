@@ -27,6 +27,11 @@ Leave credit cost unknown until you verify the unit cost for your exact request
 shape in the current documentation. The estimate uses your assumptions; it does
 not establish live coverage, entitlement or the freshness of returned records.
 
+For several request shapes with different or unknown unit costs, use the
+[offline request-budget kit](https://github.com/JacobiusMakes/parlayapi-notebooks/tree/main/labs/request-budget).
+It includes a CSV template, exact JSON export and a self-contained notebook.
+Unpriced work keeps the total credit estimate unknown.
+
 ## First request
 
 ```js
